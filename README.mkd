@@ -1,33 +1,24 @@
-Willful: Behavior driven testing in Io
+Willful
 ============
 
-Installation
--------------
+Simple behavior driven testing in Io.
 
-```
+------------
+
+### Install
+
+```bash
 git clone https://github.com/benmills/willful.git
 cd willful
 io install.io
 ```
 
-Getting Started
-----------------
-
-Lets say we want to test the class `Foo` that has a method `bar`.
-
-```
-Foo := Object clone do( bar := method("bar"))
-```
-
-To set up our test file we want to include Willful. The install script copies willful into the ioPath folder so you can easily include it like this
-
-```
-doFile(System ioPath .. "/willful.io")
-```
-
-Once we have Willful included in our test file we can setup our tests.
+### Write
 
 ```io
+doFile(System ioPath .. "/willful.io")
+Foo := Object clone do( bar := method("bar"))
+
 describe("Foo") do(
   it("Will bar", block(
     f := Foo clone
@@ -38,7 +29,9 @@ describe("Foo") do(
 )
 ```
 
-To run the tests use the `willful` command.
+### Run
+
+The `willful` command will look for any file with a name containing `-test` and attempt to run them. You can also explicitly tell it what to run by passing any number of files or directories.
 
 ```bash
 $ willful foo-test.io
@@ -46,6 +39,3 @@ $ willful foo-test.io
  - Testing Foo                  
    . 1/1 Passed                 
 ```
-
-The `willful` command will by look for any file with a name containing `-test` and attempt to run them. You can also explicitly tell it what to run by passing any number of files or directories.
-
