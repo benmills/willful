@@ -11,4 +11,9 @@ describe("Foo") do(
     f bar will != "baz"
     f bar will beOk
   ))
+
+  it("fails when exceptions are raised", block(
+    exception := Exception clone
+    exception raise("an exception is raised!")
+  ))
 ) 
