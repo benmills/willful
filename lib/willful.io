@@ -27,7 +27,12 @@ WillContext := Object clone do(
     return context
   )
 
-  Object forward := method()
+  # was originally overridden to return nil. I don't know why.
+  # I'm changing it to raise an error so it doesn't hide missing method invocations (should fail-fast)
+  Object forward := method(
+    message := call sender asString .. " tried sending (" .. call message asString .. ") to " .. call target asString
+    Exception raise(message)
+  )
 )
 
 DescribeContext := Object clone do(
