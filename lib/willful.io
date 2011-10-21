@@ -47,7 +47,7 @@ DescribeContext := Object clone do(
       test setScope(context)
       e := try(test call)
       passed := true
-      e catch(AssertionFailed,
+      e catch(Exception,
         passed = false
         assertionErrors append(description .. ": " .. e error)
       )

@@ -8,9 +8,12 @@ describe("Foo",
   it("Will bar", 
     f := Foo clone
     f bar will == "bar"
+    f bar will != "baz"
+    f bar will beOk
   )
-  it("Will not baz", 
-    f := Foo clone
-    f bar will == "baz"
+
+  it("fails when exceptions are raised",
+    exception := Exception clone
+    exception raise("an exception is raised!")
   )
 ) 
