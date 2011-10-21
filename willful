@@ -1,9 +1,5 @@
 #!/usr/local/bin/io
 
-doRelativeFile := method(path,
-  doFile(call message label pathComponent asMutable appendPath(path))
-)
-
 getTests := method(dir,
   tests = List clone
   dir fileNames foreach(file, if(file findSeq("-test"), tests append(dir path .. "/" .. file)))
