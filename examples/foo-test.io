@@ -16,4 +16,8 @@ describe("Foo",
     exception := Exception clone
     exception raise("an exception is raised!")
   )
+  
+  it("fails when the exception is that a method is called which DNE",
+    "abc" someNonexistentMethod
+  )
 ) 
