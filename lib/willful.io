@@ -34,8 +34,8 @@ DescribeContext := Object clone do(
   contexts := List clone
   tests := Map clone
 
-  it := method(description, test,
-    self tests atPut(description, test)
+  it := method(description, 
+    self tests atPut(description, block setMessage(call argAt(1)))
   )
 
   run := method(callback,
@@ -47,7 +47,7 @@ DescribeContext := Object clone do(
       test setScope(context)
       e := try(test call)
       passed := true
-      e catch(AssertionFailed, 
+      e catch(AssertionFailed,
         passed = false
         assertionErrors append(description .. ": " .. e error)
       )
@@ -66,5 +66,10 @@ describe := method(description,
   context := DescribeContext clone
   context description := description 
   DescribeContext contexts append(context)
+
+  test := block setMessage(call argAt(1))
+  test setScope(context) 
+  test call
+
   context
 )

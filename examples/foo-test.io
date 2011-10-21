@@ -1,14 +1,16 @@
-doFile(System ioPath .. "/willful.io")
+doFile("lib/willful.io")
 
 # Code
 Foo := Object clone do(bar := method("bar"))
 
 # Tests
-describe("Foo") do(
-  it("Will bar", block(
+describe("Foo",
+  it("Will bar", 
     f := Foo clone
     f bar will == "bar"
-    f bar will != "baz"
-    f bar will beOk
-  ))
+  )
+  it("Will not baz", 
+    f := Foo clone
+    f bar will == "baz"
+  )
 ) 
