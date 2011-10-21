@@ -10,7 +10,7 @@ runTests := method(tests,
   "=> Running Willful tests" println
   tests foreach(file,
     testFile := doFile(file)
-    testFile contexts foreach(test,
+    testFile ?contexts foreach(test,
       writeln(" - Testing " .. test description)
       "   " print
       results := test run(block(passed, if(passed, "." print, "f" print)))
