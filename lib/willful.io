@@ -30,14 +30,17 @@ WillContext := Object clone do(
   # was originally overridden to return nil. I don't know why.
   # I'm changing it to raise an error so it doesn't hide missing method invocations (should fail-fast)
   Object forward := method(
-    message := call sender asString .. " tried sending (" .. call message asString .. ") to " .. call target asString
+    message := call sender asString .. "   tried sending (" .. call message asString .. ") to " .. call target asString
     Exception raise(message)
   )
 )
 
 DescribeContext := Object clone do(
   contexts := List clone
-  tests := Map clone
+
+  init := method(
+    self tests := Map clone
+  )
 
   it := method(description, 
     self tests atPut(description, block setMessage(call argAt(1)))
@@ -72,9 +75,9 @@ describe := method(description,
   context description := description 
   DescribeContext contexts append(context)
 
-  test := block setMessage(call argAt(1))
-  test setScope(context) 
-  test call
-
+  itGroup := block setMessage(call argAt(1))
+  itGroup setScope(context) 
+  itGroup call
+  
   context
 )

@@ -11,11 +11,11 @@ runTests := method(tests,
   tests foreach(file,
     testFile := doFile(file)
     testFile ?contexts foreach(test,
-      writeln(" - Testing " .. test description)
+      writeln("\n - Testing " .. test description)
       "   " print
       results := test run(block(passed, if(passed, "." print, "f" print)))
       writeln(" " .. results at("passed") .. "/" .. results at("total") .. " Passed")
-      results at("errors") foreach(println)
+      results at("errors") foreach(error, writeln("   " .. error))
     )
   )
 )
