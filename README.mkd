@@ -44,4 +44,4 @@ $ willful foo-test.io
 
 ### Projects using Willful
 
-* [JoshCheek](https://github.com/JoshCheek/ttt-io)'s [tt-io](https://github.com/JoshCheek/ttt-io)
+* [JoshCheek](https://github.com/JoshCheek)'s [tt-io](https://github.com/JoshCheek/ttt-io)
