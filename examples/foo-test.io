@@ -29,3 +29,10 @@ describe("Boo",
     f baz will == "bzzaz"
   )
 ) 
+
+describe("Foo",
+  it("bar again", 
+    f := Foo clone
+    f bar will == "bar"
+  )
+) 

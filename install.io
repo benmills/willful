@@ -7,4 +7,4 @@ System runCommand("cp willful /usr/local/bin")
 System runCommand("chmod +x /usr/local/bin/willful")
 
 writeln("  3. Moving willful.io to " .. System ioPath .. "/willful.io")
-System runCommand("cp lib/willful.io " .. System ioPath .. "/willful.io")
+System runCommand("cp -r lib " .. System ioPath .. "/willful/")
