@@ -1,0 +1,8 @@
+features to add:
+  line number to failing tests
+  line number to exceptions
+  truthy/falsy matchers
+  ability to define helper methods in the describe block, and use in the it block
+  colouring output
+  pending keyword
+  fuzzy matchers beWhatevz
