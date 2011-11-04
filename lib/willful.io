@@ -1,14 +1,21 @@
 Importer addSearchPath("lib")
-AssertionFailed := Exception clone
+
+: := method(val,
+  list(self, val)
+)
+
+tags := method(
+  tagMap := Map clone
+  call message arguments foreach(arg,
+    result := doMessage(arg)
+    tagMap atPut(result at(0), result at(1))
+  )
+  tagMap
+)
 
 describe := method(description,
-  context := DescribeContext clone
-  context description := description 
-  DescribeContext contexts append(context)
-
-  itGroup := block setMessage(call argAt(1))
-  itGroup setScope(context) 
-  itGroup call
-  
-  context
+  hasTags := call argCount == 3
+  tagMap := if(hasTags, doMessage(call argAt(1)), Map clone)
+  tests := if(hasTags, call argAt(2), call argAt(1))
+  DescribeContext addContext(description, tests, tagMap)
 )

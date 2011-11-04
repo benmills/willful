@@ -1,4 +1,8 @@
 #!/usr/local/bin/io
+OperatorTable addOperator(":", 4)
+filter := false
+filterKey := nil
+filterVal := nil
 
 getTests := method(dir,
   tests = List clone
@@ -11,11 +15,16 @@ runTests := method(tests,
   tests foreach(file,
     testFile := doFile(file)
     testFile ?contexts foreach(test,
-      writeln("\n - Testing " .. test description)
-      "   " print
-      results := test run(block(passed, if(passed, "." print, "f" print)))
-      writeln(" " .. results at("passed") .. "/" .. results at("total") .. " Passed")
-      results at("errors") foreach(error, writeln("   " .. error))
+      shouldFilter := filter
+      overrideFilter := test tags at(filterKey) == filterVal
+
+      if(shouldFilter == false or test hasTestsForFilter(filterKey, filterVal),
+        writeln("\n - Testing " .. test description)
+        "   " print
+        results := test run(block(passed, if(passed, "." print, "f" print)), filterKey, filterVal, overrideFilter)
+        writeln(" " .. results at("passed") .. "/" .. results at("total") .. " Passed")
+        results at("errors") foreach(error, writeln("   " .. error))
+      )
     )
   )
 )
@@ -25,16 +34,30 @@ if(args size == 1, args = List clone append("."), args = args rest)
 
 if(args contains("--help") or args contains("-h"),
   "useage: willful [file/directory ...]" println
-,
-  tests := List clone
-  args foreach(item,
-    if (Directory exists(item),
-      getTests(Directory with(item))
-    ,  
-      if(File exists(item), tests append(item))
-    )
-  )
-
-  runTests(tests)
+  System exit 
 )
 
+
+if(args contains("--filter") or args contains("-f"),
+  filterArgs := args at(args indexOf("-f") + 1)
+  if(filterArgs == nil,
+    "You need to provide args to filter" println
+    System exit
+  )
+
+  filterArgs = filterArgs split(":")
+  filter = true
+  filterKey = filterArgs at(0)
+  filterVal = filterArgs at(1)
+)
+
+tests := List clone
+args foreach(item,
+  if (Directory exists(item),
+    getTests(Directory with(item))
+  , 
+    if(File exists(item), tests append(item))
+  )
+)
+
+runTests(tests)

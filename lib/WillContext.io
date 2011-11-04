@@ -1,21 +1,38 @@
-doRelativeFile("TestContext.io")
-
 WillContext := Object clone do(
   Object will := method(
-    context := TestContext clone
-    context target := call target
-    
-    context callback := method(message,
-      if(message != true, AssertionFailed raise(message))
+    context := Object clone do(
+      setSlot("beOk", method(
+        if(self target, callback(true), callback(false))
+      ))
+      setSlot("==", method(right,
+        if(self target == right, callback(true), callback(
+          "Expected " .. right .. " got " .. target
+        ))
+      ))
+      setSlot("!=", method(right,
+        if(self target != right, callback(true), callback(
+          "Expected not " .. right .. " got " .. target
+        ))
+      ))
+
+      callback := method(message,
+        if(message != true, AssertionFailed raise(message))
+      )
     )
 
+    context target := call target
     context
   )
 
-  # was originally overridden to return nil. I don't know why.
-  # I'm changing it to raise an error so it doesn't hide missing method invocations (should fail-fast)
+  Object run := method(
+    response := false
+    e := try(self call)
+    e catch(e, response = e error)
+
+    response
+  )
+
   Object forward := method(
-    message := call sender asString .. "   tried sending (" .. call message asString .. ") to " .. call target asString
-    Exception raise(message)
+    Exception raise("tried sending (" .. call message asString .. ") to " .. call target asString)
   )
 )

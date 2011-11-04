@@ -5,8 +5,9 @@ Foo := Object clone do(bar := method("bar"))
 Boo := Object clone do(baz := method("baz"))
 
 # Tests
-describe("Foo",
-  it("Will bar", 
+describe("Foo", tags("version": "1.23"),
+
+  it("Will bar", tags("version": "1.23"),
     f := Foo clone
     f bar will == "bar"
     f bar will != "baz"
@@ -21,18 +22,21 @@ describe("Foo",
   it("fails when the exception is that a method is called which DNE",
     "abc" someNonexistentMethod
   )
-) 
+)
 
-describe("Boo",
-  it("Will baz", 
+describe("Boo", tags("version": "1.23"),
+  it("Will baz", tags("version": "1.23"),
     f := Boo clone
     f baz will == "bzzaz"
   )
-) 
+  it("nothing",
+    Object will beOk
+  )
+)
 
 describe("Foo",
-  it("bar again", 
+  it("bar again",
     f := Foo clone
     f bar will == "bar"
   )
-) 
+)
