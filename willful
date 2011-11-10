@@ -1,5 +1,5 @@
 #!/usr/local/bin/io
-OperatorTable addOperator(":", 4)
+OperatorTable addAssignOperator(":", "atPut")
 filter := false
 filterKey := nil
 filterVal := nil
@@ -16,7 +16,7 @@ runTests := method(tests,
     testFile := doFile(file)
     testFile ?contexts foreach(test,
       shouldFilter := filter
-      overrideFilter := test tags at(filterKey) == filterVal
+      overrideFilter := if(filterKey, test tags at(filterKey) == filterVal, false)
 
       if(shouldFilter == false or test hasTestsForFilter(filterKey, filterVal),
         writeln("\n - Testing " .. test description)
@@ -39,7 +39,8 @@ if(args contains("--help") or args contains("-h"),
 
 
 if(args contains("--filter") or args contains("-f"),
-  filterArgs := args at(args indexOf("-f") + 1)
+  fiterArgIndex := if(args contains("-f"), args indexOf("-f"), args indexOf("--filter"))
+  filterArgs := args at(fiterArgIndex + 1)
   if(filterArgs == nil,
     "You need to provide args to filter" println
     System exit
