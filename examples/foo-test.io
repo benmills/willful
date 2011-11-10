@@ -5,9 +5,9 @@ Foo := Object clone do(bar := method("bar"))
 Boo := Object clone do(baz := method("baz"))
 
 # Tests
-describe("Foo", tags(version: "1.23"),
+describe("Foo", tags(version => "1.23"),
 
-  it("Will bar", tags(version: "1.23"),
+  it("Will bar", tags(version => "1.23"),
     f := Foo clone
     f bar will == "bar"
     f bar will != "baz"
@@ -24,8 +24,8 @@ describe("Foo", tags(version: "1.23"),
   )
 )
 
-describe("Boo", tags(version: "1.23"),
-  it("Will baz", tags(version: "1.23"),
+describe("Boo", tags(version => "1.23"),
+  it("Will baz", tags(version => "1.23"),
     f := Boo clone
     f baz will == "bzzaz"
   )
