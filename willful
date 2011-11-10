@@ -1,5 +1,5 @@
 #!/usr/local/bin/io
-OperatorTable addAssignOperator(":", "atPut")
+OperatorTable addAssignOperator("=>", "atPut")
 filter := false
 filterKey := nil
 filterVal := nil
