@@ -4,6 +4,17 @@ filter := false
 filterKey := nil
 filterVal := nil
 
+# set colours if they are not already set
+# this allows users to load a lib that defines fgGreen and fgRed on Sequence
+# that is appropriate for their system (ie with aniso for *nix)
+if(Sequence slotNames contains("fgGreen") not,
+  Sequence fgGreen := method(self)
+)
+if(Sequence slotNames contains("fgRed") not,
+  Sequence fgRed := method(self)
+)
+
+
 getTests := method(dir,
   tests = List clone
   dir fileNames foreach(file, if(file findSeq("-test"), tests append(dir path .. "/" .. file)))
@@ -21,9 +32,9 @@ runTests := method(tests,
       if(shouldFilter == false or test hasTestsForFilter(filterKey, filterVal),
         writeln("\n - Testing " .. test description)
         "   " print
-        results := test run(block(passed, if(passed, "." print, "f" print)), filterKey, filterVal, overrideFilter)
+        results := test run(block(passed, if(passed, "." fgGreen print, "f" fgRed print)), filterKey, filterVal, overrideFilter)
         writeln(" " .. results at("passed") .. "/" .. results at("total") .. " Passed")
-        results at("errors") foreach(error, writeln("   " .. error))
+        results at("errors") foreach(error, writeln("   " .. error fgRed))
       )
     )
   )
