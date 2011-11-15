@@ -28,9 +28,16 @@ Runner := Object clone do(
 
     specs foreach(spec,
       response := spec run
+      success := response == nil
+      specOutput(success)
 
-      specOutput(response == nil)
-      failed append(response)
+      if(success == false,
+        responseObj := Object clone
+        responseObj msg := response
+        responseObj spec := spec description
+        responseObj context := spec context
+        failed append(responseObj)
+      )
     )
     
     totalOutput(failed)
@@ -42,5 +49,14 @@ Runner := Object clone do(
 
   totalOutput := method(failed,
     ("\n" .. specs size .. " specs, " .. failed size .. " failures") println
+    currentContext := nil
+    failed foreach(fail,
+      if(fail context != currentContext,
+        "" println
+        currentContext = fail context
+        fail context description println 
+      )
+      ("    " .. fail spec .. " failed: " .. fail msg) println
+    )
   )
 )

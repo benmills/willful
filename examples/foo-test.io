@@ -11,12 +11,12 @@ describe("Foo",
     f bar will == "bar"
   )
 
-  it("bar will not baz",
+  it("bar will not baz", tags(1 > 0),
     f := Foo clone
     f bar will == "baz"
   )
 
-  it("will baz", tags(version => 1.23),
+  it("will baz", tags(version > "1.23"),
     f := Foo clone
     f baz will beOk
   )

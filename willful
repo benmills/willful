@@ -1,2 +1,43 @@
 #!/usr/local/bin/io
-"todo" println
+
+filter := false
+filterTags := Map clone
+args := System args clone
+
+System args rest foreach(index, arg,
+  i := index + 1
+  if(arg == "-f" or arg == "--filter",
+    filter := true
+
+    tagList := System args at(i+1) ?split(":")
+    if(tagList isNil, tagList := List clone)
+    if(tagList at(0) and tagList at(1),
+      val := tagList at(1)
+      filterTags atPut(tagList at(0), val)
+      args removeAt(i+1)
+    )
+    args remove(arg)
+  )
+)
+
+specFiles := List clone
+args rest foreach(item,
+  if (Directory exists(item),
+    dir := Directory with(item)
+    dir fileNames foreach(file, if(file findSeq("-test"), specFiles append(dir path .. "/" .. file)))
+  ,
+    if(File exists(item), specFiles append(item))
+  )
+)
+
+foundGroups := List clone
+specFiles foreach(file,
+  file := doFile(file)
+  if(file hasSlot("groups"),
+    foundGroups := file groups values
+  )
+)
+
+runner := Runner withGroups(foundGroups)
+if(filter, runner := runner withTags(filterTags))
+runner run

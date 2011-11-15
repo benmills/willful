@@ -6,6 +6,7 @@ SpecGroup := Object clone do(
 
     group := self clone withDescription(description) evalTests(tests)
     groups atPut(description, group)
+    group
   )
 
   init := method(
@@ -21,7 +22,10 @@ SpecGroup := Object clone do(
   )
 
   it := method(description, 
-    spec := Spec clone withDescription(description) withTest(call argAt(call argCount - 1)) withTags(if(call argCount == 3, call argAt(1)))
+    test := call argAt(call argCount - 1) 
+    tags := if(call argCount == 3, call argAt(1))
+
+    spec := Spec clone withDescription(description) withTest(test) withTags(tags) withContext(self)
     self specs atPut(description, spec)
   )
 )

@@ -1,6 +1,11 @@
 AssertionFailed := Exception clone
 
 Spec := Object clone do(
+
+  withContext := method(context,
+    self context := context; self
+  )
+
   withDescription := method(description, 
     self description := description; self
   )
@@ -22,10 +27,7 @@ Spec := Object clone do(
           methodName := call message name
           args := call message argsEvaluatedIn(call sender)
         )
-
-        tagsToMatch foreach(k,v,
-          Object setSlot(k, v)
-        ) 
+        tagsToMatch foreach(k,v, Object setSlot(k, v)) 
         
         call evalArgs foreach(t, if(t == false, result = false))
         result
