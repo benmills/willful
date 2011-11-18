@@ -22,14 +22,12 @@ Spec := Object clone do(
     tagScope := Object clone do(
       tags := method(
         result := true
-
-        Object forward := method(
-          methodName := call message name
-          args := call message argsEvaluatedIn(call sender)
-        )
         tagsToMatch foreach(k,v, Object setSlot(k, v)) 
-        
-        call evalArgs foreach(t, if(t == false, result = false))
+
+        e := try(call evalArgs foreach(t, if(t == false, result = false)))
+        if(e, result = false)
+
+        tagsToMatch foreach(k,v, Object removeSlot(k, v)) 
         result
       )
     )

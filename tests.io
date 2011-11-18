@@ -1,13 +1,9 @@
 Importer addSearchPath("lib")
 
 assert := method(msg, cond,
-  if(cond == false,
-    Exception raise("Failed: " .. msg) 
-  ,
-    "." print
-  )
+  if(cond, "." print; return)
+  Exception raise("Failed: " .. msg)
 )
-
 
 doTest := method(file,
   doFile("tests/" .. file .. "-test.io")
@@ -15,3 +11,5 @@ doTest := method(file,
 )
 
 doTest("spec")
+doTest("spec-group")
+doTest("runner")

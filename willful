@@ -13,6 +13,7 @@ System args rest foreach(index, arg,
     if(tagList isNil, tagList := List clone)
     if(tagList at(0) and tagList at(1),
       val := tagList at(1)
+      ifError(val = val asNumber)
       filterTags atPut(tagList at(0), val)
       args removeAt(i+1)
     )

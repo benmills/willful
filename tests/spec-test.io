@@ -33,8 +33,8 @@ spec := makeSpec(
   tags(foo == "bar")
 )
 assert("It will return true if eval tags are true", spec evalTags(Map clone with("foo", "bar")))
-spec := makeSpec(
 
+spec := makeSpec(
   tags(foo == "bar")
 )
 assert("It will return false if any eval tags are false", spec evalTags(Map clone with("foo", "baz")) == false)

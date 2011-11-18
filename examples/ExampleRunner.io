@@ -1,5 +1,14 @@
 group := doFile("examples/foo-test.io")
 
-Runner withGroups(List clone append(group)) withTags(Map clone with(
-  "version", 1.23
-)) run
+runner := Runner withGroups(List clone append(group)) 
+
+//runner run
+//writeln("_________________________________")_
+
+runner specOutput := method(success, spec,
+  spec description println 
+)
+
+runner withTags(Map clone with(
+  "version", 1.24
+)) run 

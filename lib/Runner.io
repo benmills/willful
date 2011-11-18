@@ -13,11 +13,13 @@ Runner := Object clone do(
   )
 
   withTags := method(tags,
+    if(tags isNil, tags := Map clone)
+
     taggedSpecs := List clone
     specs foreach(spec,
       if(spec evalTags(tags), taggedSpecs append(spec))
     )
- 
+    
     taggedRunner := self clone
     taggedRunner specs = taggedSpecs 
     taggedRunner
@@ -29,7 +31,7 @@ Runner := Object clone do(
     specs foreach(spec,
       response := spec run
       success := response == nil
-      specOutput(success)
+      specOutput(success, spec)
 
       if(success == false,
         responseObj := Object clone
